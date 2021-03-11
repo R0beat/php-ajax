@@ -15,7 +15,7 @@ application/x-www-form-urlencoded: Los valores son codificados en tuplas llave-v
 		peticion.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
 		//Este método se encargar de ver  lo que estamos recibiendo desde el servidor
 		peticion.onreadystatechange = function () {
-            //Cambiamos el valor del elemnto
+            //Cambiamos el valor del elemento
 			document.getElementById('title').innerHTML = peticion.responseText;
 		}
 		//Ejecutamos la peticion
@@ -24,7 +24,9 @@ application/x-www-form-urlencoded: Los valores son codificados en tuplas llave-v
 _y en el archivo 'backend.php'_
 ```php
 <?php 
-	echo 'Este es un mensaje importado por ajax';
+	if(isset($_POST)){
+		echo $_POST['username'];
+	}
  ?>
 
 ```
