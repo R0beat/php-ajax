@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Ejemplo Básico</title>
+</head>
+<body>
+	<button onclick="sendRequest()">
+		Send Ajax Request
+	</button>
+	<h1 class="" id="title"></h1>
+</body>
+<script>
+	function sendRequest(){
+		//instanciamos XMLHttpRequest para enviar y recibir peticiones
+		let peticion = new XMLHttpRequest();
+		//hacemos una peticion get al archivo 'backend'
+		peticion.open('POST','backend.php',true);
+		//Establecemos las opciones de peticiones
+		peticion.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+		//Este método se encargar de ver  lo que estamos recibiendo desde el servidor
+		peticion.onreadystatechange = function () {
+			document.getElementById('title').innerHTML = peticion.responseText;
+		}
+		//Ejecutamos la peticion
+		peticion.send('username=Roberto');
+	}
+</script>
+</html>
