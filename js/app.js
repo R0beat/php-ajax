@@ -45,9 +45,11 @@ $(document).ready(function(){
                 let template = '';
                 tasks.forEach(task =>{
                     template += `
-                        <tr>
+                        <tr taskId="${task.id}">
                             <td>${task.id}</td>
-                            <td>${task.nombre}</td>
+                            <td>
+                                <a href="#" class="task-item">${task.nombre}</a>
+                            </td>
                             <td>${task.descripcion}</td>
                             <td><button class="task-delete btn btn-danger">Eliminar</button></td>
                         </tr>
@@ -59,10 +61,21 @@ $(document).ready(function(){
     }
 
     //Delete task
-    $(document).on('click','.task-delete', function(){
-        console.log('clicked');
+    $(document).on('click','.task-delete',function (){
+        if(confirm('Estas seguro de querer eliminar??')){
+            let element = $(this)[0].parentElement.parentElement;
+            let id = $(element).attr('taskId');
+            $.post('task-delete.php', {id}, function (response){
+                taskList();
+            });
+        }
     });
 
+    $(document).on('click','.task-item',function(){
+        let element = $(this)[0].parentElement.parentElement;
+        let id = $(element).attr('taskId');
+        console.log('editando');
+    });
    
 
 });
