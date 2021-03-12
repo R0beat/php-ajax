@@ -13,16 +13,17 @@
 		<ul class="navbar-nav ml-auto">
 			<form action="" class="form-inline my-2 my-lg-0">
 				<input type="search" name="" id="search" class="form-control mr-sm-2" placeholder="Search">
-				<button type="submit" class="btn btn-success my-2 my-lg-0">SEARCH</button>
 			</form>	
 		</ul>
 	</nav>
 	<div class="container p-4">
+		<div class="alert alert-info">PARA EDITAR PRESIONE EL NOMBRE DE LA TAREA</div>
 		<div class="row">
 			<div class="col md-5">
 				<div class="card border-success mb-3">
 					<div class="card-body">
 						<form action="" id="task-form">
+							<input type="hidden" id="taskId">
 							<div class="form-group">
 								<input type="text" id="nombre" class="form-control" placeholder="Task Name">
 							</div>
@@ -36,7 +37,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-7">
+			<div class="col-md-8">
 				<div class="card my-4" id="task-result">
 					<div class="card-body">
 						<ul id="container"></ul>
@@ -45,9 +46,9 @@
 				<table class="table table-bordered table-sm table-hover">
 					<thead>
 						<tr class="table-primary">
-							<td>ID</td>
-							<td>Name</td>
-							<td>Description</td>
+							<td>#</td>
+							<td>TAREA</td>
+							<td>DESCRIPCION</td>
 						</tr>
 					</thead>
 					<tbody id="tasks"></tbody>

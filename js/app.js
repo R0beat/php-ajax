@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    let editar = false;
     //Search
     taskList();
     $('#task-result').hide();
@@ -17,6 +18,7 @@ $(document).ready(function(){
                     });
                     $('#container').html(template);
                     $('#task-result').show();
+                    editar = true;
                 }
 
             });
@@ -26,9 +28,12 @@ $(document).ready(function(){
     $('#task-form').submit(function(e){
         const postData ={
             nombre: $('#nombre').val(),
-            descripcion:$('#descripcion').val()
+            descripcion:$('#descripcion').val(),
+            id: $('#taskId').val()
         };
-        $.post('task-add.php', postData, function (response) {
+        //editando
+        let url = editar === false ? 'task-add.php' : 'task-edit.php';
+        $.post(url, postData, function (response) {
             taskList();
             $('#task-form').trigger('reset');
         });
@@ -74,7 +79,13 @@ $(document).ready(function(){
     $(document).on('click','.task-item',function(){
         let element = $(this)[0].parentElement.parentElement;
         let id = $(element).attr('taskId');
-        console.log('editando');
+        $.post('task-single.php', {id}, function(response){
+            const task = JSON.parse(response); 
+            $('#taskId').val(task.id);
+            $('#nombre').val(task.nombre);
+            $('#descripcion').val(task.descripcion);
+            editar = true;
+        })
     });
    
 
