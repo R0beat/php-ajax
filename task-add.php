@@ -1,7 +1,7 @@
 <?php
     //Incluimos la conexion
     include('db/conexion.php');
-
+        
     if(isset($_POST['nombre'])){
         $nombre = $_POST['nombre'];
         $descipcion = $_POST['descripcion'];
@@ -10,7 +10,7 @@
         if(!$result){
             die('Error al insertar');
         }
-        echo "datos guardados exitosamente";
+        echo "DATOS GUARDADOS EXITOSAMENTE";
     }
 
 ?>

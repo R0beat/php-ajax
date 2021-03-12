@@ -36,6 +36,7 @@ $(document).ready(function(){
         $.post(url, postData, function (response) {
             taskList();
             $('#task-form').trigger('reset');
+            $.alert(response);
         });
         //Evitamos que la pagina se recargue cada vez que enviamos datos
         e.preventDefault();
@@ -50,13 +51,13 @@ $(document).ready(function(){
                 let template = '';
                 tasks.forEach(task =>{
                     template += `
-                        <tr taskId="${task.id}">
+                        <tr id="idtask" idtask="${task.id}">
                             <td>${task.id}</td>
                             <td>
                                 <a href="#" class="task-item">${task.nombre}</a>
                             </td>
                             <td>${task.descripcion}</td>
-                            <td><button class="task-delete btn btn-danger">Eliminar</button></td>
+                            <td><button class="task-delete btn btn-block text-center btn-danger"><i class="fad fa-eraser fa-7x"></i></button></td>
                         </tr>
                     `
                 });
@@ -67,25 +68,54 @@ $(document).ready(function(){
 
     //Delete task
     $(document).on('click','.task-delete',function (){
-        if(confirm('Estas seguro de querer eliminar??')){
-            let element = $(this)[0].parentElement.parentElement;
-            let id = $(element).attr('taskId');
-            $.post('task-delete.php', {id}, function (response){
-                taskList();
-            });
-        }
+        $.confirm({
+            title: 'ELIMINAR',
+            content: '¿DESEA ELIMINAR LA TAREA?',
+            buttons: {
+                confirmar: function () {
+                    let element = document.getElementById('idtask');
+                    let id = $(element).attr('idtask');
+                    $.post('task-delete.php', {id}, function (response){
+                        taskList();
+                        $.alert(response);
+                    })
+                },
+                cancelar: function () {
+                    $.alert('OPERACIÓN CANCELADA');
+                },
+            }
+        });
     });
 
-    $(document).on('click','.task-item',function(){
+    $(document).on('click','.task-item',function(e){
+        e.preventDefault();
         let element = $(this)[0].parentElement.parentElement;
-        let id = $(element).attr('taskId');
+        let id = $(element).attr('idtask');
         $.post('task-single.php', {id}, function(response){
             const task = JSON.parse(response); 
             $('#taskId').val(task.id);
             $('#nombre').val(task.nombre);
             $('#descripcion').val(task.descripcion);
             editar = true;
-        })
+        });
+    });
+    $(document).on('click','#vaciar',function(){
+        $.confirm({
+            title: 'VACIAR',
+            content: '¿DESEA VACIAR LA LISTA DE TAREAS?',
+            buttons: {
+                confirmar: function () {
+                    $.post('task-drop.php', function(response){
+                        taskList();
+                        $.alert(response);
+                    })
+                },
+                cancelar: function () {
+                    $.alert('OPERACIÓN CANCELADA');
+                },
+            }
+        });
+        
     });
    
 

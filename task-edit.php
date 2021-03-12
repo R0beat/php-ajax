@@ -9,6 +9,6 @@
     if(!$result){
         die('Error al Actualizar'.mysqli_error($conexion));
     }
-    echo "Exito al Actualizar";
+    echo "EXITO AL ACTUALIZAR";
     
 ?>
