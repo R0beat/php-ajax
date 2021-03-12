@@ -1,6 +1,7 @@
 $(document).ready(function(){
+    //Search
+    taskList();
     $('#task-result').hide();
-    
     $('#search').keyup(function(e){
         if($('#search').val()){
             let search = $('#search').val();
@@ -12,13 +13,56 @@ $(document).ready(function(){
                     let tasks = JSON.parse(response);
                     let template = '';
                     tasks.forEach(task => {
-                        template += `<li>${task.nombre }</li>`
+                        template += `<li>${task.nombre}</li>`
                     });
                     $('#container').html(template);
                     $('#task-result').show();
                 }
 
-            })
+            });
         }
     });
+    //Add Task
+    $('#task-form').submit(function(e){
+        const postData ={
+            nombre: $('#nombre').val(),
+            descripcion:$('#descripcion').val()
+        };
+        $.post('task-add.php', postData, function (response) {
+            taskList();
+            $('#task-form').trigger('reset');
+        });
+        //Evitamos que la pagina se recargue cada vez que enviamos datos
+        e.preventDefault();
+    });
+    //Task list
+    function taskList(){
+        $.ajax({
+            url : 'task-list.php',
+            type : 'GET',
+            success : function (response){
+                let tasks = JSON.parse(response);
+                let template = '';
+                tasks.forEach(task =>{
+                    template += `
+                        <tr>
+                            <td>${task.id}</td>
+                            <td>${task.nombre}</td>
+                            <td>${task.descripcion}</td>
+                            <td><button class="task-delete btn btn-danger">Eliminar</button></td>
+                        </tr>
+                    `
+                });
+                $('#tasks').html(template);
+            }
+        });
+    }
+
+    //Delete task
+    $(document).on('click','.task-delete', function(){
+        console.log('clicked');
+    });
+
+   
+
 });
